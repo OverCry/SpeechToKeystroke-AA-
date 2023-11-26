@@ -17,13 +17,12 @@ duration = 100  # Set Duration To 100 ms
 
 # Condition
 STOP = ['stop', 'quit', 'exit']
-LISTEN_CON = []
-OBJECTION_CON = []
-PRESS_CON = []
-PRESENT_CON = []
-OPTION_CON = []
-RECORD_CON = []
-SAVE_CON = []
+OBJECTION_CON = 'objection'
+PRESS_CON = 'press'
+PRESENT_CON = 'present'
+OPTION_CON = 'option'
+RECORD_CON = 'record'
+SAVE_CON = 'save'
 
 # Keystroke
 LISTEN = 'w'
@@ -41,22 +40,22 @@ def keystroke(action):
 
 
 def triggerCommand(command):
-    if 'objection' in command:
+    if OBJECTION_CON in command:
         keystroke(OBJECTION)
         return True
-    elif 'press' in command:
+    elif PRESS_CON in command:
         keystroke(PRESS)
         return True
-    elif 'present' in command:
+    elif PRESENT_CON in command:
         keystroke(PRESENT)
         return True
-    elif 'option' in command:
+    elif OPTION_CON in command:
         keystroke(OPTION)
         return True
-    elif 'record' in command:
+    elif RECORD_CON in command:
         keystroke(RECORD)
         return True
-    elif 'save' in command:
+    elif SAVE_CON in command:
         keystroke(Key.esc)
         keystroke(Key.enter)
         keystroke(Key.enter)
