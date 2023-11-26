@@ -1,33 +1,47 @@
-# done in python 3.9
-# windows
 from pynput.keyboard import Key, Controller
 import keyboard
 import speech_recognition as sr
 import sys
 import winsound
+import time
 
 keyboardPresser = Controller()
 r = sr.Recognizer()
 
 STOP_LOOPING = False
 frequency = 2500  # Set Frequency To 2500 Hertz
-duration = 100  # Set Duration To 1000 ms == 1 second
+duration = 100  # Set Duration To 100 ms
+
+def keystroke(action):
+    keyboardPresser.press(action)
+    keyboardPresser.release(action)
+    time.sleep(0.3)
 
 def triggerCommand(command):
     if 'objection' in command:
-        keyboardPresser.press('a')
+        keystroke('e')
         return True
     elif 'press' in command:
-        keyboardPresser.press('a')
+        keystroke('q')
         return True
     elif 'present' in command:
-        keyboardPresser.press('e')
+        keystroke('e')
         return True
     elif 'option' in command:
-        keyboardPresser.press('e')
+        keystroke('e')
         return True
     elif 'record' in command:
-        keyboardPresser.press('e')
+        keystroke('e')
+        return True
+    elif 'save' in command:
+        keystroke(Key.esc)
+        keystroke(Key.enter)
+        keystroke(Key.enter)
+        keystroke(Key.left)
+        keystroke(Key.enter)
+        time.sleep(3)
+        keystroke(Key.backspace)
+        keystroke(Key.backspace)
         return True
     else:
         return False
@@ -38,7 +52,7 @@ def listen():
     STOP_LOOPING = False
 
     while True:
-        if keyboard.is_pressed('w'):  # f
+        if keyboard.is_pressed('w'):
             while not STOP_LOOPING:
                 # while True:
                 with sr.Microphone() as source:
