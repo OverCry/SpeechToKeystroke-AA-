@@ -8,34 +8,53 @@ import time
 keyboardPresser = Controller()
 r = sr.Recognizer()
 
+## action variables
+# Variables
+LISTEN_DURATION = 2
 STOP_LOOPING = False
 frequency = 2500  # Set Frequency To 2500 Hertz
 duration = 100  # Set Duration To 100 ms
 
-# action variables
-LISTEN_DURATION = 2
+# Condition
+STOP = ['stop', 'quit', 'exit']
+LISTEN_CON = []
+OBJECTION_CON = []
+PRESS_CON = []
+PRESENT_CON = []
+OPTION_CON = []
+RECORD_CON = []
+SAVE_CON = []
+
+# Keystroke
 LISTEN = 'w'
+OBJECTION = 'e'
+PRESS = 'q'
+PRESENT = 'e'
+OPTION = Key.esc
+RECORD = Key.tab
+
 
 def keystroke(action):
     keyboardPresser.press(action)
     keyboardPresser.release(action)
     time.sleep(0.3)
 
+
 def triggerCommand(command):
     if 'objection' in command:
-        keystroke('e')
+        keystroke(OBJECTION)
         return True
     elif 'press' in command:
-        keystroke('q')
+        keystroke(PRESS)
         return True
     elif 'present' in command:
-        keystroke('e')
+        keystroke(PRESENT)
         return True
     elif 'option' in command:
-        keystroke(Key.esc)
+        keystroke(OPTION)
         return True
     elif 'record' in command:
-        keystroke(Key.tab)
+        keystroke(RECORD)
         return True
     elif 'save' in command:
         keystroke(Key.esc)
@@ -50,6 +69,9 @@ def triggerCommand(command):
     else:
         return False
 
+
+def check_if_substring(word, substrings):
+    return any(substring in word for substring in substrings)
 
 def listen():
     global STOP_LOOPING
@@ -68,7 +90,7 @@ def listen():
                         text = r.recognize_google(audio_data)
                         # check text recognized
                         # print(text)
-                        if 'stop' in text or 'quit' in text:
+                        if check_if_substring(text, STOP):
                             sys.exit()
                         res = triggerCommand(text)
                         if res:
@@ -76,6 +98,7 @@ def listen():
                     except sr.UnknownValueError:
                         print('No Voice Detected')
             STOP_LOOPING = False
+
 
 if __name__ == '__main__':
     listen()
