@@ -12,6 +12,10 @@ STOP_LOOPING = False
 frequency = 2500  # Set Frequency To 2500 Hertz
 duration = 100  # Set Duration To 100 ms
 
+# action variables
+LISTEN_DURATION = 2
+LISTEN = 'w'
+
 def keystroke(action):
     keyboardPresser.press(action)
     keyboardPresser.release(action)
@@ -28,10 +32,10 @@ def triggerCommand(command):
         keystroke('e')
         return True
     elif 'option' in command:
-        keystroke('e')
+        keystroke(Key.esc)
         return True
     elif 'record' in command:
-        keystroke('e')
+        keystroke(Key.tab)
         return True
     elif 'save' in command:
         keystroke(Key.esc)
@@ -52,14 +56,14 @@ def listen():
     STOP_LOOPING = False
 
     while True:
-        if keyboard.is_pressed('w'):
+        if keyboard.is_pressed(LISTEN):
             while not STOP_LOOPING:
                 # while True:
                 with sr.Microphone() as source:
                     # know when the system is listening
                     winsound.Beep(frequency, duration)
                     # read the audio data from the default microphone
-                    audio_data = r.record(source, duration=2)
+                    audio_data = r.record(source, duration=LISTEN_DURATION)
                     try:
                         text = r.recognize_google(audio_data)
                         # check text recognized
